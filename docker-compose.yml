@@ -1,0 +1,18 @@
+version: '3'
+services:
+  sql:
+    image: mariadb:10.3
+    environment:
+      - MYSQL_ROOT_PASSWORD=qwerty
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d/
+    container_name: mariadb
+
+  spring:
+    build: spring/
+    ports:
+     - "8080:8080"
+    depends_on:
+      - sql
+    container_name: spring
+    restart: on-failure
